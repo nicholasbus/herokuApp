@@ -1,5 +1,5 @@
 import "./App.css";
-import { useSTate, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const url = (path) => {
   return process.env.NODE_ENV === "development"
@@ -8,9 +8,18 @@ const url = (path) => {
 };
 
 function App() {
+  const [data, setData] = useState("Hi");
+
+  useEffect(() => {
+    fetch(url("/api/"))
+      .then((res) => res.json())
+      .then((res) => setData(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className='App'>
-      <header className='App-header'>React apps are cool</header>
+      <header className='App-header'>{data}</header>
     </div>
   );
 }
